@@ -72,3 +72,27 @@ mysql>
 
 Awesome! Data is replicated.
 
+You can watch the replication status by accessing as ```root```
+
+```
+vagrant ssh mysql-slave
+
+[vagrant@mysql-slave ~]$ sudo mysql
+
+mysql> show slave status\G
+*************************** 1. row ***************************
+               Slave_IO_State: Waiting for master to send event
+                  Master_Host: 192.168.81.11
+                  Master_User: repl
+                  Master_Port: 3306
+                Connect_Retry: 60
+              Master_Log_File: mysql-bin.000002
+          Read_Master_Log_Pos: 120
+               Relay_Log_File: relay-bin.000004
+                Relay_Log_Pos: 283
+        Relay_Master_Log_File: mysql-bin.000002
+             Slave_IO_Running: Yes
+            Slave_SQL_Running: Yes
+
+...
+```

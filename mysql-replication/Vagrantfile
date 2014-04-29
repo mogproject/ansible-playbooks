@@ -18,6 +18,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Ansible
   provision_config = {
     :playbook => "site.yml",
+    :inventory_path => "hosts",
     :verbose => "v"
   }
 
@@ -25,13 +26,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define :"mysql-master" do |host|
     host.vm.hostname = "mysql-master"
     host.vm.network :private_network, ip: "192.168.81.11", netmask: "255.255.255.0"
+    host.vm.provision :ansible, provision_config.merge(:limit => "mysql-master")
   end
 
   config.vm.define :"mysql-slave" do |host|
     host.vm.hostname = "mysql-slave"
     host.vm.network :private_network, ip: "192.168.81.12", netmask: "255.255.255.0"
+    host.vm.provision :ansible, provision_config.merge(:limit => "mysql-slave")
   end
 
   config.vm.provision "shell", inline: $script
-  config.vm.provision :ansible, provision_config
 end
