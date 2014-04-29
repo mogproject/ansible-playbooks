@@ -1,0 +1,37 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+
+$script = <<SCRIPT
+setenforce 0
+sed -i 's/^SELINUX=.*$/SELINUX=disabled/' /etc/selinux/config
+yum install -y libselinux-python
+SCRIPT
+
+
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = "opscode-centos65"
+  config.vm.box_url = "http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_centos-6.5_chef-provisionerless.box"
+   
+  # Ansible
+  provision_config = {
+    :playbook => "site.yml",
+    :verbose => "v"
+  }
+
+  # VM
+  config.vm.define :"mysql-master" do |host|
+    host.vm.hostname = "mysql-master"
+    host.vm.network :private_network, ip: "192.168.81.11", netmask: "255.255.255.0"
+  end
+
+  config.vm.define :"mysql-slave" do |host|
+    host.vm.hostname = "mysql-slave"
+    host.vm.network :private_network, ip: "192.168.81.12", netmask: "255.255.255.0"
+  end
+
+  config.vm.provision "shell", inline: $script
+  config.vm.provision :ansible, provision_config
+end

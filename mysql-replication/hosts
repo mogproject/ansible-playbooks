@@ -1,0 +1,5 @@
+[mysql-master]
+mysql-master ansible_ssh_host=192.168.81.11
+
+[mysql-slave]
+mysql-slave ansible_ssh_host=192.168.81.12

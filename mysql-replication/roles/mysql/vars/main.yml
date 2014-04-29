@@ -1,0 +1,41 @@
+---
+mysql_url: http://ftp.jaist.ac.jp/pub/mysql/Downloads/MySQL-5.6
+mysql_ver: "5.6.17-1"  # The version to be installed
+mysql_rpms:
+  - MySQL-shared-compat-{{ mysql_ver }}.el6.x86_64.rpm
+  - MySQL-devel-{{ mysql_ver }}.el6.x86_64.rpm
+  - MySQL-client-{{ mysql_ver }}.el6.x86_64.rpm
+  - MySQL-shared-{{ mysql_ver }}.el6.x86_64.rpm
+  - MySQL-server-{{ mysql_ver }}.el6.x86_64.rpm
+rpm_download_dir: /usr/local/src
+
+mysql_service: mysql
+mysql_conf_dir: /etc
+mysql_slow_log: /var/log/mysql-slow.log
+mysql_port: 3306               # The port for mysql server to listen
+mysql_bind_address: "0.0.0.0"  # The bind address for mysql server
+mysql_root_db_pass: password   # The root DB password
+
+# A list that has all the databases to be
+# created and their replication status:
+mysql_db:                                 
+  - name: awesome
+    replicate: yes
+
+# A list of the mysql users to be created
+# and their password and privileges:
+mysql_users:                              
+  - name: awesome
+    host: localhost
+    pass: awesome
+    priv: "awesome.*:ALL"
+  - name: awesome
+    host: "%"
+    pass: awesome
+    priv: "awesome.*:ALL"
+
+# If the database is replicated the users
+# to be used for replication:
+mysql_repl_user:                          
+  - name: repl
+    pass: repl
