@@ -11,7 +11,7 @@ rpm_download_dir: /usr/local/src
 
 mysql_service: mysql
 mysql_conf_dir: /etc
-mysql_slow_log: /var/log/mysql-slow.log
+mysql_slow_log: /var/log/mysqld-slow.log
 mysql_port: 3306               # The port for mysql server to listen
 mysql_bind_address: "0.0.0.0"  # The bind address for mysql server
 mysql_root_db_pass: password   # The root DB password
